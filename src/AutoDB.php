@@ -8,11 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class AutoDB
 {
-    public function checkChangesOnModels()
+    public function getAllModels($namespace, $directory)
     {
-        $namespace = 'App\\Models\\';
-        $directory = __DIR__ . '/app/Models';
-
         $models = array();
         foreach (glob("{$directory}/*.php") as $filename) {
             $classname = $namespace . basename($filename, '.php');
@@ -28,14 +25,21 @@ class AutoDB
     }
 
 
-    public static function checkModel(Model $class)
+    public function checkModelChanges(Model $class)
     {
+        $classInstantiated = new ReflectionClass($class);
+        $fileName = $classInstantiated->getFileName();
 
         $file = 'path/to/file.php';
 
         $checksum = md5_file($file);
 
+        $checksumTesting = '6c5bba47a61e7a1eb03b36471df005b6';
 
+        if($checksum == $checksumTesting)
+        {
+            //TODO
+        }
     }
 }
 
