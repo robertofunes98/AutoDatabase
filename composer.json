@@ -12,5 +12,10 @@
       "homepage": "https://github.com/robertofunes98",
       "role": "Backend Developer"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "ref98\\": "src/"
+    }
+  }
 }
