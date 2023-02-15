@@ -1,0 +1,7 @@
+{
+  "name": "ref98/AutoDatabase",
+  "description": "The library to allow CodeFirst on laravel using models/entities",
+  "require": {
+    "php": ">=8.1"
+  }
+}
