@@ -5,6 +5,7 @@ use HaydenPierce\ClassFinder\ClassFinder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use ReflectionClass;
 
 class AutoDB
 {
@@ -12,7 +13,7 @@ class AutoDB
     {
         $models = array();
         foreach (glob("{$directory}/*.php") as $filename) {
-            $classname = $namespace . basename($filename, '.php');
+            $classname = $namespace . '\\' . basename($filename, '.php');
             if (class_exists($classname)) {
                 $models[] = $classname;
             }
@@ -25,7 +26,7 @@ class AutoDB
     }
 
 
-    public function checkModelChanges(Model $class)
+    public function checkModelChanges(String $class)
     {
         $classInstantiated = new ReflectionClass($class);
         $fileName = $classInstantiated->getFileName();
