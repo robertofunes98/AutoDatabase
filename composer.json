@@ -1,7 +1,16 @@
 {
-  "name": "ref98/AutoDatabase",
+  "name": "ref98/auto-database",
   "description": "The library to allow CodeFirst on laravel using models/entities",
   "require": {
     "php": ">=8.1"
-  }
+  },
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Roberto Funes",
+      "email": "robertofunes98@gmail.com",
+      "homepage": "https://github.com/robertofunes98",
+      "role": "Backend Developer"
+    }
+  ]
 }
