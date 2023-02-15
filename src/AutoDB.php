@@ -1,6 +1,7 @@
 <?php
 namespace ref98;
 
+use HaydenPierce\ClassFinder\ClassFinder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -9,48 +10,23 @@ class AutoDB
 {
     public function checkChangesOnModels()
     {
-        $models = [];
-        $files = Storage::disk('app/Models')->allFiles();
+        $namespace = 'App\\Models\\';
+        $directory = __DIR__ . '/app/Models';
 
-        foreach ($files as $file) {
-            if (strpos($file, '.php') !== false) {
-                $path = Storage::disk('app/Models')->path($file);
-                $contents = File::get($path);
-                $namespaces = $this->getNamespacesFromContents($contents);
-
-                foreach ($namespaces as $namespace) {
-                    if (strpos($namespace, 'App\Models') !== false) {
-                        $models[] = $namespace;
-                    }
-                }
+        $models = array();
+        foreach (glob("{$directory}/*.php") as $filename) {
+            $classname = $namespace . basename($filename, '.php');
+            if (class_exists($classname)) {
+                $models[] = $classname;
             }
         }
+
+        print_r($models);
+
 
         return $models;
     }
 
-    private function getNamespacesFromContents($contents)
-    {
-        $namespaces = [];
-        $tokens = token_get_all($contents);
-        $namespace = '';
-
-        for ($i = 0; $i < count($tokens); $i++) {
-            if ($tokens[$i][0] === T_NAMESPACE) {
-                for ($j = $i + 1; $j < count($tokens); $j++) {
-                    if ($tokens[$j][0] === T_STRING) {
-                        $namespace .= '\\' . $tokens[$j][1];
-                    } else if ($tokens[$j] === '{' || $tokens[$j] === ';') {
-                        $namespaces[] = $namespace;
-                        $namespace = '';
-                        break;
-                    }
-                }
-            }
-        }
-
-        return $namespaces;
-    }
 
     public static function checkModel(Model $class)
     {
